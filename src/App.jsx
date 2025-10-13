@@ -4,7 +4,7 @@ import VenueGrid from "./components/VenueGrid";
 import Sidebar from "./components/Sidebar";
 import EventIdForm from "./components/EventIdForm";
 import { generateConfig } from "./utils/configGenerator";
-
+import { Analytics } from "@vercel/analytics/react";
 function App() {
   const [data, setData] = useState([]);
   const [inputs, setInputs] = useState([]);
@@ -137,34 +137,37 @@ function App() {
   }, [inputs]);
 
   return (
-    <div className="min-h-screen flex ">
-      <div className="w-96 h-screen sticky top-0 border z-20 overflow-y-auto ">
-        <Sidebar
-          inputs={inputs}
-          outputString={outputString}
-          copyToClipboard={copyToClipboard}
-          updateInput={updateInput}
-          removeRow={removeRow}
-          resetInputs={resetInputs}
-        />
-      </div>
-      <div className="flex-1">
-        <EventIdForm
-          loading={loading}
-          eventId={eventId}
-          secCount={data?.length}
-          setEventId={setEventId}
-        />
+    <>
+      <div className="min-h-screen flex ">
+        <div className="w-96 h-screen sticky top-0 border z-20 overflow-y-auto ">
+          <Sidebar
+            inputs={inputs}
+            outputString={outputString}
+            copyToClipboard={copyToClipboard}
+            updateInput={updateInput}
+            removeRow={removeRow}
+            resetInputs={resetInputs}
+          />
+        </div>
+        <div className="flex-1">
+          <EventIdForm
+            loading={loading}
+            eventId={eventId}
+            secCount={data?.length}
+            setEventId={setEventId}
+          />
 
-        <VenueGrid
-          data={data}
-          selectedSections={selectedSections}
-          onSectionClick={handleSectionClick}
-          isSelected={isSelected}
-        />
-        {/* </div> */}
+          <VenueGrid
+            data={data}
+            selectedSections={selectedSections}
+            onSectionClick={handleSectionClick}
+            isSelected={isSelected}
+          />
+          {/* </div> */}
+        </div>
       </div>
-    </div>
+      <Analytics />
+    </>
   );
 }
 
