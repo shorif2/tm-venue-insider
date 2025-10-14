@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 
 import VenueGrid from "./components/VenueGrid";
 import Sidebar from "./components/Sidebar";
-import EventIdForm from "./components/EventIdForm";
-import { generateConfig } from "./utils/configGenerator";
+import Hearder from "./components/Hearder";
+import { generateConfig } from "./utils/helper";
 import { Analytics } from "@vercel/analytics/react";
+
 function App() {
   const [data, setData] = useState([]);
   const [inputs, setInputs] = useState([]);
@@ -12,6 +13,7 @@ function App() {
   const [outputString, setOutputString] = useState({});
   const [eventId, setEventId] = useState("");
   const [selectedSections, setSelectedSections] = useState([]);
+  const [error, setError] = useState("");
   const isUserInputting = useRef(false);
 
   useEffect(() => {
@@ -25,11 +27,11 @@ function App() {
           setData([]);
         }
         const data = await response.json();
-
+        setError("");
         setData(data.manifestSections || []);
-        setSelectedSections([]); // clear selections
+        setSelectedSections([]);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        setError("Error fetching data: Please input a valid venue ID");
       } finally {
         setLoading(false);
       }
@@ -130,7 +132,6 @@ function App() {
     }
   }, [selectedSections]);
 
-  //generate sting
   useEffect(() => {
     const outputString = generateConfig(inputs);
     setOutputString(outputString);
@@ -138,8 +139,9 @@ function App() {
 
   return (
     <>
-      <div className="min-h-screen flex ">
-        <div className="w-96 h-screen sticky top-0 border z-20 overflow-y-auto ">
+      <div className="h-screen flex overflow-hidden">
+        {/* sidebar */}
+        <div className="hidden  md:block md:w-72 lg:w-96  sticky top-0  border z-20 overflow-y-auto">
           <Sidebar
             inputs={inputs}
             outputString={outputString}
@@ -149,21 +151,27 @@ function App() {
             resetInputs={resetInputs}
           />
         </div>
-        <div className="flex-1">
-          <EventIdForm
-            loading={loading}
-            eventId={eventId}
-            secCount={data?.length}
-            setEventId={setEventId}
-          />
-
-          <VenueGrid
-            data={data}
-            selectedSections={selectedSections}
-            onSectionClick={handleSectionClick}
-            isSelected={isSelected}
-          />
-          {/* </div> */}
+        {/* main content  */}
+        <div className="flex-1 flex flex-col overflow-hidden">
+          {/* Hearder */}
+          <div className="w-full sticky top-0 z-20 shadow-sm bg-white p-4">
+            <Hearder
+              loading={loading}
+              eventId={eventId}
+              secCount={data?.length}
+              setEventId={setEventId}
+            />{" "}
+          </div>
+          {/* Venue grid */}
+          <div className="p-4 w-full overflow-auto">
+            <VenueGrid
+              data={data}
+              selectedSections={selectedSections}
+              onSectionClick={handleSectionClick}
+              isSelected={isSelected}
+              error={error}
+            />
+          </div>
         </div>
       </div>
       <Analytics />

@@ -824,3 +824,96 @@ name: "L",
 numSeats: 112,
 name: "N",
 },]
+
+[{
+numSeats: 9,
+name: "BOX210",
+},
+{
+numSeats: 9,
+name: "BOX212",
+},
+{
+numSeats: 11,
+name: "BOX214",
+},
+{
+numSeats: 11,
+name: "BOX218",
+},
+{
+numSeats: 11,
+name: "101",
+},
+{
+numSeats: 9,
+name: "102",
+},
+{
+numSeats: 9,
+name: "103",
+},
+{
+numSeats: 9,
+name: "104",
+},
+{
+numSeats: 9,
+name: "201",
+},
+{
+numSeats: 11,
+name: "202",
+},
+{
+numSeats: 11,
+name: "203",
+},
+{
+numSeats: 328,
+name: "205",
+},
+{
+numSeats: 352,
+name: "301",
+},
+{
+numSeats: 171,
+name: "302",
+},
+{
+numSeats: 201,
+name: "303",
+},
+{
+numSeats: 352,
+name: "304",
+},
+{
+numSeats: 128,
+name: "401",
+},
+{
+numSeats: 352,
+name: "402",
+},
+{
+numSeats: 195,
+name: "403",
+},
+{
+numSeats: 112,
+name: "409",
+},
+{
+numSeats: 112,
+name: "500",
+},
+{
+numSeats: 112,
+name: "600",
+},
+{
+numSeats: 112,
+name: "700",
+}]
