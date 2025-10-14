@@ -1,18 +1,31 @@
 import { getCategoryColor, useCategorizedSections } from "../utils/helper";
 import EmptySection from "./EmptySection";
 import Error from "./Error";
-
+import Masonry from "react-masonry-css";
 const VenueGrid = ({ data, onSectionClick, isSelected, error }) => {
   const categorizedSections = useCategorizedSections(data);
   if (error) return <Error error={error} />;
   if (!data || data.length === 0) return <EmptySection />;
+  // "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 [grid-template-rows:masonry]"
 
+  const breakpointColumnsObj = {
+    default: 4, // >= 1280px (xl)
+    1280: 3, // xl
+    1024: 3, // lg
+    768: 2, // md
+    425: 1,
+    0: 1, // < md
+  };
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4   gap-4">
+    <Masonry
+      breakpointCols={breakpointColumnsObj}
+      className="my-masonry-grid"
+      columnClassName="my-masonry-grid_column"
+    >
       {Object.entries(categorizedSections).map(([category, sections]) => (
         <div
           key={category}
-          className="bg-gray-50 rounded-lg p-3   border border-gray-200 "
+          className="bg-gray-50 rounded-lg p-3 border border-gray-200 break-inside-avoid"
         >
           {/* Category Header */}
           <div className="flex items-center mb-2">
@@ -47,7 +60,7 @@ const VenueGrid = ({ data, onSectionClick, isSelected, error }) => {
           </div>
         </div>
       ))}
-    </div>
+    </Masonry>
   );
 };
 

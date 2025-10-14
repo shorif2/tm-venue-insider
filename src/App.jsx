@@ -141,7 +141,7 @@ function App() {
     <>
       <div className="h-screen flex overflow-hidden">
         {/* sidebar */}
-        <div className="hidden  md:block md:w-72 lg:w-96  sticky top-0  border z-20 overflow-y-auto">
+        <div className="hidden  md:block md:w-72 xl:w-96  sticky top-0  border z-20 overflow-y-auto">
           <Sidebar
             inputs={inputs}
             outputString={outputString}
@@ -163,7 +163,7 @@ function App() {
             />{" "}
           </div>
           {/* Venue grid */}
-          <div className="p-4 w-full overflow-auto">
+          <div className="py-4 pr-4 w-full overflow-auto">
             <VenueGrid
               data={data}
               selectedSections={selectedSections}
