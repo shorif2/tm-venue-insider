@@ -47,8 +47,7 @@ function App() {
         // Remove section if already selected
         return prev.filter((selected) => selected.name !== section.name);
       } else {
-        const newSelect = [...prev, { ...section, price: "", rowCount: "" }];
-        console.log(newSelect);
+        const newSelect = [...prev, { ...section, price: "", rows: "" }];
         return newSelect;
       }
     });
@@ -150,7 +149,7 @@ function App() {
     <>
       <div className="h-screen flex overflow-hidden">
         {/* sidebar */}
-        <div className="hidden  md:block md:w-72 xl:w-96  sticky top-0  border z-20 overflow-y-auto">
+        <div className="hidden  md:block md:w-72 lg:w-96  sticky top-0  border z-20 overflow-y-auto">
           <Sidebar
             outputString={outputString}
             selectedSections={selectedSections}

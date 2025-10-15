@@ -1,11 +1,10 @@
 import { Copy, RotateCcw, SquareMousePointer, Telescope } from "lucide-react";
-import SelectedSection from "./SelectedSection";
 import { useState } from "react";
+
+import SpreadSheet from "./SpreadSheet";
 
 const Sidebar = ({
   outputString,
-  updateInput,
-  removeRow,
   copyToClipboard,
   selectedSections,
   setSelectedSections,
@@ -30,19 +29,19 @@ const Sidebar = ({
   };
 
   return (
-    <div className="h-full flex flex-col p-2 lg:p-4">
+    <div className="h-full flex flex-col p-2 lg:p-4 space-y-3">
       <h1 className="inline-flex justify-center items-center text-center gap-2 text-xl font-bold text-gray-900">
         <Telescope className="" /> TM Venue Insider
       </h1>
 
-      <div className="flex justify-between items-center pt-4">
+      <div className="flex justify-between items-center">
         <div className="font-medium text-gray-700 my-4">
           Sec Config{" "}
-          {selectedSections.length > 0 && `(${selectedSections.length})`}
+          {selectedSections?.length > 0 && `(${selectedSections?.length})`}
         </div>
         <button
           onClick={() => setSelectedSections([])}
-          disabled={selectedSections.length === 0}
+          disabled={selectedSections?.length === 0}
           className={`inline-flex items-center gap-2 border px-2 py-0.5 rounded bg-red-200 text-sm font-medium cursor-pointer hover:text-white`}
           title="Reset all"
         >
@@ -50,7 +49,7 @@ const Sidebar = ({
         </button>
       </div>
       {/* sec config */}
-      <div className="relative mb-3">
+      <div className="relative ">
         <textarea
           value={isTyping ? config : outputString.secConfig}
           placeholder="Section config will be displayed here..."
@@ -73,9 +72,11 @@ const Sidebar = ({
           </button>
         </div>
       </div>
-
+      <div className="flex justify-start items-center ">
+        <div className="font-medium text-gray-700 ">Sections</div>
+      </div>
       {/* seat Config */}
-      <div className="relative mb-3">
+      <div className="relative ">
         <textarea
           value={isTyping ? sec : outputString.section}
           onFocus={handleFocus}
@@ -103,7 +104,11 @@ const Sidebar = ({
           </button>
         </div>
       </div>
-
+      {selectedSections?.length ? (
+        <h2 className="font-medium text-gray-700 ">Sec Config Table</h2>
+      ) : (
+        ""
+      )}
       <div
         className="flex-1 min-h-0 overflow-y-auto "
         style={{
@@ -111,28 +116,11 @@ const Sidebar = ({
           scrollbarColor: "#d1d5db transparent",
         }}
       >
-        {selectedSections.length > 0 ? (
-          <table className="min-w-full border-collapse text-xs text-left">
-            <thead className="bg-gray-50 sticky top-0 z-10">
-              <tr>
-                <th className="px-3 py-2 border text-center">Section</th>
-                <th className="px-3 py-2 border text-center">Price</th>
-                <th className="px-3 py-2 border text-center">Rows</th>
-                <th className="px-3 py-2 border text-center">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {selectedSections.map((section, index) => (
-                <SelectedSection
-                  key={index}
-                  index={index}
-                  section={section}
-                  updateInput={updateInput}
-                  removeRow={removeRow}
-                />
-              ))}
-            </tbody>
-          </table>
+        {selectedSections?.length > 0 ? (
+          <SpreadSheet
+            data={selectedSections}
+            setSelectedSections={setSelectedSections}
+          />
         ) : (
           <div className="text-center py-10 text-gray-500">
             <SquareMousePointer className="mx-auto h-6 w-8 mb-2" />

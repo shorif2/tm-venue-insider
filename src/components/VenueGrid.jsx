@@ -6,15 +6,14 @@ const VenueGrid = ({ data, onSectionClick, isSelected, error }) => {
   const categorizedSections = useCategorizedSections(data);
   if (error) return <Error error={error} />;
   if (!data || data.length === 0) return <EmptySection />;
-  // "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 [grid-template-rows:masonry]"
 
   const breakpointColumnsObj = {
-    default: 4, // >= 1280px (xl)
-    1280: 3, // xl
-    1024: 3, // lg
-    768: 2, // md
+    default: 4,
+    1280: 3,
+    1024: 3,
+    768: 2,
     425: 1,
-    0: 1, // < md
+    0: 1,
   };
   return (
     <Masonry

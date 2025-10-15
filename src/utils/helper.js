@@ -108,13 +108,13 @@ export const useCategorizedSections = (data) => {
 
 export const generateConfig = (inputs) => {
   const secConfig = inputs
-    .filter((input) => input.name && input.price)
+    .filter((input) => input?.name && input?.price)
     .map((input) => {
-      const price = input.price;
-      if (input.rowCount) {
-        return `${input.name}=${price}*${input.rowCount}`;
+      const price = input?.price;
+      if (input.rows) {
+        return `${input?.name}=${price}*${input.rows}`;
       }
-      return `${input.name}=${price}`;
+      return `${input?.name}=${price}`;
     })
     .join(",");
 

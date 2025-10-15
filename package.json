@@ -10,12 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@handsontable/react-wrapper": "^16.1.1",
     "@vercel/analytics": "^1.5.0",
     "axios": "^1.6.0",
+    "handsontable": "^16.1.1",
     "lucide-react": "^0.545.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-masonry-css": "^1.0.16"
+    "react-masonry-css": "^1.0.16",
+    "scheduler": "^0.27.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
