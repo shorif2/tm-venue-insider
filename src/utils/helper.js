@@ -16,49 +16,6 @@ export const getCategoryColor = (category) => {
   return colors[category] || "bg-orange-200";
 };
 
-// export const useCategorizedSections = (data) => {
-//   return useMemo(() => {
-//     if (!data || data.length === 0) return {};
-
-//     const categories = {
-//       "GA/PIT/Others": [],
-//       "Lower-1": [],
-//       "100s": [],
-//       "200s": [],
-//       "300s": [],
-//       "400s": [],
-//       "500s": [],
-//       "600s": [],
-//       "700s": [],
-//     };
-
-//     data.forEach((section) => {
-//       const name = section.name?.toLowerCase() || "";
-
-//       if (/^1\d\d/.test(name)) categories["100s"].push(section);
-//       else if (/^2\d\d/.test(name)) categories["200s"].push(section);
-//       else if (/^3\d\d/.test(name)) categories["300s"].push(section);
-//       else if (/^4\d\d/.test(name)) categories["400s"].push(section);
-//       else if (/^5\d\d/.test(name)) categories["500s"].push(section);
-//       else if (/^6\d\d/.test(name)) categories["600s"].push(section);
-//       else if (/^7\d\d/.test(name)) categories["700s"].push(section);
-//       else if (
-//         /^0\d/.test(name) ||
-//         /^1\d/.test(name) ||
-//         /^2\d/.test(name) ||
-//         /^3\d/.test(name)
-//       )
-//         categories["Lower-1"].push(section);
-//       else categories["GA/PIT/Others"].push(section);
-//     });
-
-//     // Remove empty categories
-//     return Object.fromEntries(
-//       Object.entries(categories).filter(([_, sections]) => sections.length > 0)
-//     );
-//   }, [data]);
-// };
-
 export const useCategorizedSections = (data) => {
   return useMemo(() => {
     if (!Array.isArray(data) || data.length === 0) return {};
@@ -151,20 +108,20 @@ export const useCategorizedSections = (data) => {
 
 export const generateConfig = (inputs) => {
   const secConfig = inputs
-    .filter((input) => input.section && input.price)
+    .filter((input) => input.name && input.price)
     .map((input) => {
       const price = input.price;
       if (input.rowCount) {
-        return `${input.section}=${price}*${input.rowCount}`;
+        return `${input.name}=${price}*${input.rowCount}`;
       }
-      return `${input.section}=${price}`;
+      return `${input.name}=${price}`;
     })
     .join(",");
 
   const section = inputs
-    .filter((input) => input.section)
+    .filter((input) => input.name)
     .map((input) => {
-      return input.section;
+      return input.name;
     })
     .join(",");
   return { secConfig, section };

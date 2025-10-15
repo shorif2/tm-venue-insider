@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 
 import VenueGrid from "./components/VenueGrid";
 import Sidebar from "./components/Sidebar";
@@ -8,13 +8,11 @@ import { Analytics } from "@vercel/analytics/react";
 
 function App() {
   const [data, setData] = useState([]);
-  const [inputs, setInputs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [outputString, setOutputString] = useState({});
   const [eventId, setEventId] = useState("");
   const [selectedSections, setSelectedSections] = useState([]);
   const [error, setError] = useState("");
-  const isUserInputting = useRef(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,15 +47,16 @@ function App() {
         // Remove section if already selected
         return prev.filter((selected) => selected.name !== section.name);
       } else {
-        // Add section if not selected
-        return [...prev, { ...section, price: "", rowCount: "" }];
+        const newSelect = [...prev, { ...section, price: "", rowCount: "" }];
+        console.log(newSelect);
+        return newSelect;
       }
     });
   };
 
   // Copy to clipboard
   const copyToClipboard = async (method) => {
-    const outputString = generateConfig(inputs);
+    const outputString = generateConfig(selectedSections);
     try {
       if (method === "secConfig") {
         await navigator.clipboard.writeText(outputString.secConfig);
@@ -72,34 +71,20 @@ function App() {
   };
 
   // Update input field
-  const updateInput = (index, field, value) => {
-    isUserInputting.current = true;
-    const newInputs = [...inputs];
-    newInputs[index][field] = value;
-    setInputs(newInputs);
-
-    // Reset the flag after a brief delay
-    setTimeout(() => {
-      isUserInputting.current = false;
-    }, 0);
+  const updateInput = (secName, field, value) => {
+    setSelectedSections((prevSections) =>
+      prevSections.map((sec) =>
+        sec.name === secName ? { ...sec, [field]: value } : sec
+      )
+    );
   };
 
-  const removeRow = (index) => {
-    if (inputs.length) {
-      const removedSection = inputs[index];
-
+  const removeRow = (secName) => {
+    if (selectedSections.length) {
       // Remove from selected sections
       setSelectedSections((prev) =>
-        prev.filter((section) => section.name !== removedSection.section)
+        prev.filter((section) => section.name !== secName)
       );
-    }
-  };
-
-  // Reset all inputs
-  const resetInputs = () => {
-    setInputs([]);
-    if (selectedSections) {
-      setSelectedSections([]);
     }
   };
 
@@ -107,35 +92,59 @@ function App() {
     return selectedSections?.some((selected) => selected.name === section.name);
   };
 
-  useEffect(() => {
-    // Don't update if user is currently inputting
-    if (isUserInputting.current) {
-      return;
-    }
+  const handleEditSec = (sections) => {
+    if (!sections) return;
 
-    if (selectedSections.length > 0) {
-      // Preserve existing input values when sections change
-      const formattedInputs = selectedSections.map((section) => {
-        const existingInput = inputs.find(
-          (input) => input.section === section.name
+    const sectionArr = sections
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean);
+
+    setSelectedSections((prev) => {
+      // Build the new section list
+      const updatedSections = sectionArr.map((secName) => {
+        // Check if this section already exists
+        const existing = prev.find((sec) => sec.name === secName);
+
+        // Keep old if exists, else add a new one
+        return (
+          existing || {
+            name: secName,
+            price: "",
+            rowCount: "",
+          }
         );
+      });
+
+      return updatedSections;
+    });
+  };
+
+  const handleEditConfig = (sections) => {
+    if (!sections) return;
+
+    const sectionArr = sections
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean)
+      .map((item) => {
+        const [secPart, valuePart] = item.split("=");
+        const [price, rowCount] = valuePart ? valuePart.split("*") : ["", ""];
+
         return {
-          section: section.name,
-          price: existingInput?.price || "",
-          rowCount: existingInput?.rowCount || "",
-          originalSection: section,
+          name: secPart || "",
+          price: price || "",
+          rowCount: rowCount || "",
         };
       });
-      setInputs(formattedInputs);
-    } else {
-      setInputs([]);
-    }
-  }, [selectedSections]);
+
+    setSelectedSections(sectionArr);
+  };
 
   useEffect(() => {
-    const outputString = generateConfig(inputs);
+    const outputString = generateConfig(selectedSections);
     setOutputString(outputString);
-  }, [inputs]);
+  }, [selectedSections]);
 
   return (
     <>
@@ -143,12 +152,14 @@ function App() {
         {/* sidebar */}
         <div className="hidden  md:block md:w-72 xl:w-96  sticky top-0  border z-20 overflow-y-auto">
           <Sidebar
-            inputs={inputs}
             outputString={outputString}
+            selectedSections={selectedSections}
+            setSelectedSections={setSelectedSections}
             copyToClipboard={copyToClipboard}
             updateInput={updateInput}
             removeRow={removeRow}
-            resetInputs={resetInputs}
+            onEditSection={handleEditSec}
+            onEditConfig={handleEditConfig}
           />
         </div>
         {/* main content  */}

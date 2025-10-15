@@ -1,38 +1,65 @@
 import { Copy, RotateCcw, SquareMousePointer, Telescope } from "lucide-react";
 import SelectedSection from "./SelectedSection";
+import { useState } from "react";
 
 const Sidebar = ({
-  inputs,
   outputString,
   updateInput,
   removeRow,
   copyToClipboard,
-  resetInputs,
+  selectedSections,
+  setSelectedSections,
+  onEditSection,
+  onEditConfig,
 }) => {
+  const [isTyping, setIstyping] = useState(false);
+  const [sec, setSec] = useState("");
+  const [config, setConfig] = useState("");
+
+  const handleFocus = () => {
+    setSec(outputString.section);
+    setConfig(outputString.secConfig);
+    setIstyping(true);
+  };
+
+  const onBlue = () => {
+    onEditSection(sec);
+    setSec("");
+    setConfig("");
+    setIstyping(false);
+  };
+
   return (
     <div className="h-full flex flex-col p-2 lg:p-4">
       <h1 className="inline-flex justify-center items-center text-center gap-2 text-xl font-bold text-gray-900">
         <Telescope className="" /> TM Venue Insider
       </h1>
+
       <div className="flex justify-between items-center pt-4">
         <div className="font-medium text-gray-700 my-4">
-          Sec Config {inputs.length > 0 && `(${inputs.length})`}
+          Sec Config{" "}
+          {selectedSections.length > 0 && `(${selectedSections.length})`}
         </div>
         <button
-          onClick={resetInputs}
-          disabled={inputs.length === 0}
+          onClick={() => setSelectedSections([])}
+          disabled={selectedSections.length === 0}
           className={`inline-flex items-center gap-2 border px-2 py-0.5 rounded bg-red-200 text-sm font-medium cursor-pointer hover:text-white`}
           title="Reset all"
         >
           <RotateCcw className="w-3 h-3" /> Reset
         </button>
       </div>
-      {/* external */}
+      {/* sec config */}
       <div className="relative mb-3">
         <textarea
-          value={outputString.secConfig}
+          value={isTyping ? config : outputString.secConfig}
           placeholder="Section config will be displayed here..."
-          readOnly
+          onFocus={handleFocus}
+          onBlur={onBlue}
+          onChange={(e) => {
+            onEditConfig(e.target.value);
+            setConfig(e.target.value);
+          }}
           className="w-full h-24 px-2 py-1.5 pr-10  border rounded text-gray-500  text-sm  focus:outline-none focus:border-blue-400 transition-colors bg-white"
         />
         <div className="absolute right-2 top-1 flex gap-2">
@@ -46,11 +73,23 @@ const Sidebar = ({
           </button>
         </div>
       </div>
+
+      {/* seat Config */}
       <div className="relative mb-3">
         <textarea
-          value={outputString.section}
+          value={isTyping ? sec : outputString.section}
+          onFocus={handleFocus}
+          onBlur={onBlue}
+          onChange={(e) => {
+            setSec(e.target.value);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              e.target.blur();
+            }
+          }}
           placeholder="Section will be displayed here..."
-          readOnly
           className="w-full px-2  pt-1.5 pr-10 bg-white border rounded text-gray-500  text-sm  focus:outline-none focus:border-blue-400 transition-colors"
         />
         <div className="absolute right-2 top-0 flex gap-2">
@@ -72,7 +111,7 @@ const Sidebar = ({
           scrollbarColor: "#d1d5db transparent",
         }}
       >
-        {inputs.length > 0 ? (
+        {selectedSections.length > 0 ? (
           <table className="min-w-full border-collapse text-xs text-left">
             <thead className="bg-gray-50 sticky top-0 z-10">
               <tr>
@@ -83,11 +122,11 @@ const Sidebar = ({
               </tr>
             </thead>
             <tbody>
-              {inputs.map((input, index) => (
+              {selectedSections.map((section, index) => (
                 <SelectedSection
                   key={index}
                   index={index}
-                  input={input}
+                  section={section}
                   updateInput={updateInput}
                   removeRow={removeRow}
                 />
