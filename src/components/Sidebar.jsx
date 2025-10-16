@@ -2,6 +2,7 @@ import { Copy, RotateCcw, SquareMousePointer, Telescope } from "lucide-react";
 import { useState } from "react";
 
 import SpreadSheet from "./SpreadSheet";
+import { defaultData } from "../App";
 
 const Sidebar = ({
   outputString,
@@ -40,7 +41,7 @@ const Sidebar = ({
           {selectedSections?.length > 0 && `(${selectedSections?.length})`}
         </div>
         <button
-          onClick={() => setSelectedSections([])}
+          onClick={() => setSelectedSections(defaultData)}
           disabled={selectedSections?.length === 0}
           className={`inline-flex items-center gap-2 border px-2 py-0.5 rounded bg-red-200 text-sm font-medium cursor-pointer hover:text-white`}
           title="Reset all"

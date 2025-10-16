@@ -5,13 +5,18 @@ import Sidebar from "./components/Sidebar";
 import Hearder from "./components/Hearder";
 import { generateConfig } from "./utils/helper";
 import { Analytics } from "@vercel/analytics/react";
-
+export const defaultData = [
+  { name: "", price: "", rows: "" },
+  { name: "", price: "", rows: "" },
+  { name: "", price: "", rows: "" },
+  { name: "", price: "", rows: "" },
+];
 function App() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [outputString, setOutputString] = useState({});
   const [eventId, setEventId] = useState("");
-  const [selectedSections, setSelectedSections] = useState([]);
+  const [selectedSections, setSelectedSections] = useState(defaultData);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -27,7 +32,7 @@ function App() {
         const data = await response.json();
         setError("");
         setData(data.manifestSections || []);
-        setSelectedSections([]);
+        setSelectedSections(defaultData);
       } catch (error) {
         setError("Error fetching data: Please input a valid venue ID");
       } finally {
@@ -47,7 +52,7 @@ function App() {
         // Remove section if already selected
         return prev.filter((selected) => selected.name !== section.name);
       } else {
-        const newSelect = [...prev, { ...section, price: "", rows: "" }];
+        const newSelect = [{ ...section, price: "", rows: "" }, ...prev];
         return newSelect;
       }
     });
