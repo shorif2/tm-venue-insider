@@ -46,16 +46,38 @@ function App() {
 
   const handleSectionClick = (section) => {
     setSelectedSections((prev) => {
-      const isAlreadySelected = prev.some(
+      let updated = [...prev];
+      const isAlreadySelected = updated.some(
         (selected) => selected.name === section.name
       );
+
+      // ✅ Remove section if it's already selected
       if (isAlreadySelected) {
-        // Remove section if already selected
-        return prev.filter((selected) => selected.name !== section.name);
+        updated = updated.filter((selected) => selected.name !== section.name);
       } else {
-        const newSelect = [{ ...section, price: "", rows: "" }, ...prev];
-        return newSelect;
+        // ✅ Find the first empty row
+        const emptyIndex = updated.findIndex(
+          (item) => !item.name && !item.price && !item.rows
+        );
+
+        if (emptyIndex !== -1) {
+          // Replace the first empty row with new section
+          updated[emptyIndex] = { ...section, price: "", rows: "" };
+        } else {
+          // No empty slot → just add the section
+          updated.push({ ...section, price: "", rows: "" });
+        }
       }
+
+      // ✅ Always ensure there's at least one empty object
+      const hasEmptyRow = updated.some(
+        (item) => !item.name && !item.price && !item.rows
+      );
+      if (!hasEmptyRow) {
+        updated.push({ name: "", price: "", rows: "" });
+      }
+
+      return updated;
     });
   };
 
