@@ -2,8 +2,10 @@ import { getCategoryColor, useCategorizedSections } from "../utils/helper";
 import EmptySection from "./EmptySection";
 import Error from "./Error";
 import Masonry from "react-masonry-css";
-const VenueGrid = ({ data, onSectionClick, isSelected, error }) => {
+import RectangleLoader from "./RectangleLoader";
+const VenueGrid = ({ data, onSectionClick, isSelected, error, loading }) => {
   const categorizedSections = useCategorizedSections(data);
+  if (loading) return <RectangleLoader />;
   if (error) return <Error error={error} />;
   if (!data || data.length === 0) return <EmptySection />;
 
@@ -15,6 +17,7 @@ const VenueGrid = ({ data, onSectionClick, isSelected, error }) => {
     425: 1,
     0: 1,
   };
+
   return (
     <Masonry
       breakpointCols={breakpointColumnsObj}
@@ -24,7 +27,7 @@ const VenueGrid = ({ data, onSectionClick, isSelected, error }) => {
       {Object.entries(categorizedSections).map(([category, sections]) => (
         <div
           key={category}
-          className="bg-gray-50 rounded-lg p-3 border border-gray-200 break-inside-avoid"
+          className=" fade-in bg-gray-50 rounded-lg p-3 border border-gray-200 break-inside-avoid"
         >
           {/* Category Header */}
           <div className="flex items-center mb-2">

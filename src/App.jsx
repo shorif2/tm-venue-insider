@@ -23,6 +23,7 @@ function App() {
     const fetchData = async () => {
       try {
         setLoading(true);
+        setData([]);
         const response = await fetch(
           `https://pubapi.ticketmaster.com/sdk/static/manifest/v1/${eventId}`
         );
@@ -184,6 +185,7 @@ function App() {
               selectedSections={selectedSections}
               onSectionClick={handleSectionClick}
               isSelected={isSelected}
+              loading={loading}
               error={error}
             />
           </div>
