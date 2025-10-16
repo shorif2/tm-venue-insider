@@ -4,7 +4,7 @@ import VenueGrid from "./components/VenueGrid";
 import Sidebar from "./components/Sidebar";
 import Hearder from "./components/Hearder";
 import { generateConfig } from "./utils/helper";
-import { Analytics } from "@vercel/analytics/react";
+import { Analytics, track } from "@vercel/analytics/react";
 export const defaultData = [
   { name: "", price: "", rows: "" },
   { name: "", price: "", rows: "" },
@@ -29,11 +29,14 @@ function App() {
         );
         if (!response.ok) {
           setData([]);
+          return;
         }
+
         const data = await response.json();
         setError("");
         setData(data.manifestSections || []);
         setSelectedSections(defaultData);
+        track("fetch_data", { endpoint: "api/manifest", success: true });
       } catch (error) {
         setError("Error fetching data: Please input a valid venue ID");
       } finally {
