@@ -3,6 +3,7 @@ import EmptySection from "./EmptySection";
 import Error from "./Error";
 import Masonry from "react-masonry-css";
 import RectangleLoader from "./RectangleLoader";
+
 const VenueGrid = ({ data, onSectionClick, isSelected, error, loading }) => {
   const categorizedSections = useCategorizedSections(data);
   if (loading) return <RectangleLoader />;
@@ -11,6 +12,7 @@ const VenueGrid = ({ data, onSectionClick, isSelected, error, loading }) => {
 
   const breakpointColumnsObj = {
     default: 4,
+    1500: 5,
     1280: 3,
     1024: 3,
     768: 2,
@@ -49,7 +51,7 @@ const VenueGrid = ({ data, onSectionClick, isSelected, error, loading }) => {
                 onClick={() => onSectionClick?.(section)}
                 className={`border ${getCategoryColor(
                   category
-                )} hover:opacity-80 transition-all duration-200 rounded px-3 py-2 text-xs font-medium min-h-[24px] flex items-center justify-center ${
+                )}  hover:scale-110 transition-all duration-200 rounded px-3 py-2 text-xs font-medium min-h-[24px] flex items-center justify-center ${
                   isSelected(section)
                     ? "ring-2 ring-yellow-400 ring-offset-1"
                     : ""

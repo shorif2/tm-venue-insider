@@ -1,5 +1,4 @@
 import { TriangleAlert } from "lucide-react";
-
 const Error = ({ error }) => {
   return (
     <div className="  px-6 pt-20 text-center text-gray-500 ">

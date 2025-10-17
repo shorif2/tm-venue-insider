@@ -1,16 +1,14 @@
-import { Link, LoaderCircle, Search, X } from "lucide-react";
+import { LoaderCircle, Search, X } from "lucide-react";
 const Hearder = ({ eventId, setEventId, loading, secCount }) => {
   return (
     <div className="w-full flex gap-4 items-center justify-between ">
-      <div className="flex rounded shadow-sm border  py-2.5   ">
+      <div className="flex rounded-md shadow-sm border  py-2.5   ">
         <div className="flex items-center gap-2 pl-2 ">
           <Search className="w-5 h-5 text-gray-400 flex-shrink-0" />
-
           <span className="hidden lg:block text-gray-600 text-sm font-medium">
             https://pubapi.ticketmaster.com/sdk/static/manifest/v1/
           </span>
         </div>
-
         <input
           id="eventId"
           value={eventId}

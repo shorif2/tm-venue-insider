@@ -1,5 +1,3 @@
-import React from "react";
-
 const EmptySection = () => {
   return (
     <div className="  px-6 pt-20 text-center text-gray-500 ">

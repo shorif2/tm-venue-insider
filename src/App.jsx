@@ -5,6 +5,7 @@ import Sidebar from "./components/Sidebar";
 import Hearder from "./components/Hearder";
 import { generateConfig } from "./utils/helper";
 import { Analytics, track } from "@vercel/analytics/react";
+import { ArrowRightLeft } from "lucide-react";
 export const defaultData = [
   { name: "", price: "", rows: "" },
   { name: "", price: "", rows: "" },
@@ -18,6 +19,7 @@ function App() {
   const [eventId, setEventId] = useState("");
   const [selectedSections, setSelectedSections] = useState(defaultData);
   const [error, setError] = useState("");
+  const [order, setOrder] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,7 +46,7 @@ function App() {
       }
     };
 
-    if (eventId) fetchData(); // only run when eventId exists
+    if (eventId) fetchData();
   }, [eventId]);
 
   const handleSectionClick = (section) => {
@@ -178,9 +180,22 @@ function App() {
 
   return (
     <>
-      <div className="h-screen flex overflow-hidden">
+      <div className="relative h-screen flex overflow-hidden">
         {/* sidebar */}
-        <div className="hidden  md:block md:w-72 lg:w-96  sticky top-0  border z-20 overflow-y-auto">
+        <div
+          className={`hidden  md:block  md:w-72 lg:w-96 ${
+            order && "order-2 transform transition-all duration-500 ease-in-out"
+          }  sticky top-0  border z-20 overflow-y-auto `}
+        >
+          <h2
+            className={`absolute right-0 mx-4 my-1.5  text-gray-500 hover:text-gray-300 cursor-pointer ${
+              order && "left-0"
+            }`}
+            title="Change to Left/Right"
+            onClick={() => setOrder(!order)}
+          >
+            <ArrowRightLeft className="w-[18px]" />
+          </h2>
           <Sidebar
             outputString={outputString}
             selectedSections={selectedSections}

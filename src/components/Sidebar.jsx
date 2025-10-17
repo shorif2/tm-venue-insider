@@ -30,27 +30,27 @@ const Sidebar = ({
   };
 
   return (
-    <div className="h-full flex flex-col p-2 lg:p-4 space-y-3">
-      <h1 className="inline-flex justify-center items-center text-center gap-2 text-xl font-bold text-gray-900">
-        <Telescope className="" /> TM Venue Insider
+    <div className="h-full flex flex-col p-2 lg:p-4 space-y-2.5">
+      <h1 className="inline-flex justify-center items-center text-center gap-2 text-lg font-bold text-gray-800">
+        <Telescope className="text-blue-700" /> TM Venue Insider
       </h1>
 
-      <div className="flex justify-between items-center">
-        <div className="font-medium text-gray-700 my-4">
+      <div className="flex justify-between items-center pt-4">
+        <div className="font-medium text-sm text-gray-700 ">
           Sec Config{" "}
           {selectedSections?.length > 0 && `(${selectedSections?.length})`}
         </div>
         <button
           onClick={() => setSelectedSections(defaultData)}
           disabled={selectedSections?.length === 0}
-          className={`inline-flex items-center gap-2 border px-2 py-0.5 rounded bg-red-200 text-sm font-medium cursor-pointer hover:text-white`}
+          className={`inline-flex items-center gap-2 border px-2 py-0.5 rounded bg-red-300 text-sm  cursor-pointer hover:bg-red-200`}
           title="Reset all"
         >
           <RotateCcw className="w-3 h-3" /> Reset
         </button>
       </div>
       {/* sec config */}
-      <div className="relative ">
+      <div className="relative scheme-dark">
         <textarea
           value={isTyping ? config : outputString.secConfig}
           placeholder="Section config will be displayed here..."
@@ -62,19 +62,19 @@ const Sidebar = ({
           }}
           className="w-full h-24 px-2 py-1.5 pr-10  border rounded text-gray-500  text-sm  focus:outline-none focus:border-blue-400 transition-colors bg-white"
         />
-        <div className="absolute right-2 top-1 flex gap-2">
+        <div className="absolute right-0 top-1 flex gap-2">
           <button
             onClick={() => copyToClipboard("secConfig")}
             disabled={!outputString}
-            className={`cursor-pointer p-2 hover:text-green-500`}
+            className={`cursor-pointer p-2  hover:text-green-500`}
             title="Copy to clipboard"
           >
-            <Copy className="w-4 h-4 text-gray-600" />
+            <Copy className="w-4 h-4 text-gray-500" />
           </button>
         </div>
       </div>
       <div className="flex justify-start items-center ">
-        <div className="font-medium text-gray-700 ">Sections</div>
+        <div className="font-medium text-sm text-gray-700 ">Sections</div>
       </div>
       {/* seat Config */}
       <div className="relative ">
@@ -92,21 +92,21 @@ const Sidebar = ({
             }
           }}
           placeholder="Section will be displayed here..."
-          className="w-full px-2  pt-1.5 pr-10 bg-white border rounded text-gray-500  text-sm  focus:outline-none focus:border-blue-400 transition-colors"
+          className="w-full h-24 px-2  pt-1.5 pr-10 bg-white border rounded text-gray-500  text-sm  focus:outline-none focus:border-blue-400 transition-colors"
         />
-        <div className="absolute right-2 top-0 flex gap-2">
+        <div className="absolute right-0 top-0 flex gap-2">
           <button
             onClick={() => copyToClipboard("section")}
             disabled={!outputString}
             className={`cursor-pointer p-2 hover:text-green-500`}
             title="Copy to clipboard"
           >
-            <Copy className="w-4 h-4 text-gray-600" />
+            <Copy className="w-4 h-4 text-gray-500" />
           </button>
         </div>
       </div>
       {selectedSections?.length ? (
-        <h2 className="font-medium text-gray-700 ">Sec Config Table</h2>
+        <h2 className="font-medium text-sm text-gray-700 ">Sec Config Table</h2>
       ) : (
         ""
       )}
