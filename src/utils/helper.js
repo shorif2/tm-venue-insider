@@ -32,10 +32,13 @@ export const useCategorizedSections = (data) => {
       const name = section.name?.toUpperCase().trim() || "";
       let key;
 
-      // 3-digit numeric sections
-      const numMatch = name.match(/^(\d{3})/);
-      if (numMatch) {
-        key = `${numMatch[1][0]}00s`;
+      // If section has GA flag
+      if (section.ga === true) {
+        key = "GA/PIT";
+      }
+      // 3-digit numeric sections like 100, 200, etc.
+      else if (/^\d{3}$/.test(name)) {
+        key = `${name[0]}00s`;
       }
       // 1-2 digit numeric sections with optional letters/ranges like 1A, 4B-BX
       else if (
@@ -57,7 +60,7 @@ export const useCategorizedSections = (data) => {
       }
       // Everything else
       else {
-        key = "GA/PIT/Others";
+        key = "Floors/Others";
       }
 
       if (!categories[key]) categories[key] = [];
@@ -78,7 +81,8 @@ export const useCategorizedSections = (data) => {
 
     // Define display order
     const order = [
-      "GA/PIT/Others",
+      "GA/PIT",
+      "Floors/Others",
       "Lower-1",
       "Lower-2",
       "100s",
@@ -97,7 +101,7 @@ export const useCategorizedSections = (data) => {
       if (categories[key]) orderedCategories[key] = categories[key];
     }
 
-    // Add any uncategorized categories dynamically
+    // Add any additional uncategorized categories dynamically
     for (const key of Object.keys(categories)) {
       if (!orderedCategories[key]) orderedCategories[key] = categories[key];
     }
