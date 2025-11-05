@@ -32,15 +32,23 @@ const VenueGrid = ({ data, onSectionClick, isSelected, error, loading }) => {
           className=" fade-in bg-gray-50 rounded-lg p-3 border border-gray-200 break-inside-avoid"
         >
           {/* Category Header */}
-          <div className="flex items-center mb-2">
-            <div
-              className={`w-2 h-2 rounded-full ${getCategoryColor(
-                category
-              )} mr-2`}
-            ></div>
-            <h3 className="text-sm font-semibold text-gray-900">
-              {category} ({sections.length})
-            </h3>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center ">
+              <div
+                className={`w-2 h-2 rounded-full ${getCategoryColor(
+                  category
+                )} mr-2`}
+              ></div>
+              <h3 className="text-sm font-semibold text-gray-900">
+                {category} ({sections.length})
+              </h3>
+            </div>
+            <button
+              onClick={() => onSectionClick?.(sections)}
+              className="text-sm font-semibold  text-gray-900 border border-gray-300 px-2  rounded hover:bg-gray-100 transition"
+            >
+              Select All
+            </button>
           </div>
 
           {/* Section Grid */}

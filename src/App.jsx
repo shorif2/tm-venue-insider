@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import VenueGrid from "./components/VenueGrid";
 import Sidebar from "./components/Sidebar";
@@ -50,31 +50,43 @@ function App() {
   }, [eventId]);
 
   const handleSectionClick = (section) => {
+    console.log(section);
     setSelectedSections((prev) => {
       let updated = [...prev];
-      const isAlreadySelected = updated.some(
-        (selected) => selected.name === section.name
-      );
 
-      // ✅ Remove section if it's already selected
-      if (isAlreadySelected) {
-        updated = updated.filter((selected) => selected.name !== section.name);
-      } else {
-        // ✅ Find the first empty row
-        const emptyIndex = updated.findIndex(
-          (item) => !item.name && !item.price && !item.rows
+      // Helper function for adding an individual section
+      const addOrToggleSection = (sec) => {
+        const isAlreadySelected = updated.some(
+          (selected) => selected.name === sec.name
         );
 
-        if (emptyIndex !== -1) {
-          // Replace the first empty row with new section
-          updated[emptyIndex] = { ...section, price: "", rows: "" };
+        if (isAlreadySelected) {
+          // Remove if already selected
+          updated = updated.filter((selected) => selected.name !== sec.name);
         } else {
-          // No empty slot → just add the section
-          updated.push({ ...section, price: "", rows: "" });
+          // Find first empty row
+          const emptyIndex = updated.findIndex(
+            (item) => !item.name && !item.price && !item.rows
+          );
+
+          if (emptyIndex !== -1) {
+            // Replace the first empty row
+            updated[emptyIndex] = { ...sec, price: "", rows: "" };
+          } else {
+            // Add new section
+            updated.push({ ...sec, price: "", rows: "" });
+          }
         }
+      };
+
+      // 🔄 Handle either an array or a single object
+      if (Array.isArray(section)) {
+        section.forEach((sec) => addOrToggleSection(sec));
+      } else {
+        addOrToggleSection(section);
       }
 
-      // ✅ Always ensure there's at least one empty object
+      // ✅ Always ensure there's at least one empty row
       const hasEmptyRow = updated.some(
         (item) => !item.name && !item.price && !item.rows
       );
