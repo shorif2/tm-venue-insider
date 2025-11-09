@@ -20,6 +20,7 @@ function App() {
   const [selectedSections, setSelectedSections] = useState(defaultData);
   const [error, setError] = useState("");
   const [order, setOrder] = useState(false);
+  const [image, setImage] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,11 +30,16 @@ function App() {
         const response = await fetch(
           `https://pubapi.ticketmaster.com/sdk/static/manifest/v1/${eventId}`
         );
+        const res = await fetch(
+          `https://mapsapi.tmol.io/maps/geometry/3/event/${eventId}/staticImage?systemId=HOST&sectionLevel=true&app=PRD2663_EDP_NA&sectionColor=727272&avertaFonts=true`
+        );
         if (!response.ok) {
           setData([]);
           return;
         }
-
+        const blob = await res.blob();
+        const imageURL = URL.createObjectURL(blob);
+        setImage(imageURL);
         const data = await response.json();
         setError("");
         setData(data.manifestSections || []);
@@ -50,7 +56,6 @@ function App() {
   }, [eventId]);
 
   const handleSectionClick = (section) => {
-    console.log(section);
     setSelectedSections((prev) => {
       let updated = [...prev];
 
@@ -240,6 +245,7 @@ function App() {
               loading={loading}
               error={error}
             />
+            <img src={image} alt="Map" />
           </div>
         </div>
       </div>
