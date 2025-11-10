@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-
 import VenueGrid from "./components/VenueGrid";
 import Sidebar from "./components/Sidebar";
 import Hearder from "./components/Hearder";
@@ -113,24 +112,6 @@ function App() {
     }
   };
 
-  // Update input field
-  const updateInput = (secName, field, value) => {
-    setSelectedSections((prevSections) =>
-      prevSections.map((sec) =>
-        sec.name === secName ? { ...sec, [field]: value } : sec
-      )
-    );
-  };
-
-  const removeRow = (secName) => {
-    if (selectedSections.length) {
-      // Remove from selected sections
-      setSelectedSections((prev) =>
-        prev.filter((section) => section.name !== secName)
-      );
-    }
-  };
-
   const isSelected = (section) => {
     return selectedSections?.some((selected) => selected.name === section.name);
   };
@@ -212,8 +193,6 @@ function App() {
             selectedSections={selectedSections}
             setSelectedSections={setSelectedSections}
             copyToClipboard={copyToClipboard}
-            updateInput={updateInput}
-            removeRow={removeRow}
             onEditSection={handleEditSec}
             onEditConfig={handleEditConfig}
           />

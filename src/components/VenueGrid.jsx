@@ -1,5 +1,4 @@
 import { getCategoryColor, useCategorizedSections } from "../utils/helper";
-import { Tooltip } from "react-tooltip";
 import EmptySection from "./EmptySection";
 import Error from "./Error";
 import Masonry from "react-masonry-css";
@@ -66,7 +65,7 @@ const VenueGrid = ({ data, onSectionClick, isSelected, error, loading }) => {
                     ? "ring-2 ring-yellow-400 ring-offset-1"
                     : ""
                 }`}
-                // title={`${section?.numSeats + " " + "Seats" || "Unnamed"}`}
+                title={`${section?.numSeats + " " + "Seats" || "Unnamed"}`}
               >
                 {section.name || "Unnamed"}
               </button>

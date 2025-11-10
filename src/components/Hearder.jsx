@@ -32,7 +32,6 @@ const Hearder = ({ eventId, setEventId, loading, secCount }) => {
           </button>
         )}
       </div>
-
       <h1 className="text-sm">Total Sections ({secCount || 0})</h1>
     </div>
   );

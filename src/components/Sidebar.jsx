@@ -1,6 +1,5 @@
 import { Copy, RotateCcw, SquareMousePointer, Telescope } from "lucide-react";
 import { useState } from "react";
-
 import SpreadSheet from "./SpreadSheet";
 import { defaultData } from "../App";
 

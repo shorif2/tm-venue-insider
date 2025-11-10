@@ -25,7 +25,6 @@ const SpreadSheet = ({ data, setSelectedSections }) => {
       if (isLastRowFilled) {
         updated.push({ name: "", price: "", rowCount: "" });
       }
-
       return updated;
     });
   };
