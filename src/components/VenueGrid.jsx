@@ -3,6 +3,7 @@ import EmptySection from "./EmptySection";
 import Error from "./Error";
 import Masonry from "react-masonry-css";
 import RectangleLoader from "./RectangleLoader";
+import VenueCardHeader from "./VenueCardHeader";
 
 const VenueGrid = ({ data, onSectionClick, isSelected, error, loading }) => {
   const categorizedSections = useCategorizedSections(data);
@@ -32,7 +33,7 @@ const VenueGrid = ({ data, onSectionClick, isSelected, error, loading }) => {
           className=" fade-in bg-gray-50 rounded-lg p-3 border border-gray-200 break-inside-avoid"
         >
           {/* Category Header */}
-          <div className="flex items-center justify-between mb-4">
+          {/* <div className="flex items-center justify-between mb-4">
             <div className="flex items-center ">
               <div
                 className={`w-2 h-2 rounded-full ${getCategoryColor(
@@ -49,7 +50,12 @@ const VenueGrid = ({ data, onSectionClick, isSelected, error, loading }) => {
             >
               Select All
             </button>
-          </div>
+          </div> */}
+          <VenueCardHeader
+            category={category}
+            sections={sections}
+            onSectionClick={onSectionClick}
+          />
 
           {/* Section Grid */}
           <div className="grid grid-cols-4 gap-2">

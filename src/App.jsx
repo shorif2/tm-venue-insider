@@ -48,7 +48,7 @@ function App() {
     if (eventId) fetchData();
   }, [eventId]);
 
-  const handleSectionClick = (section) => {
+  const handleSectionClick = (section, price) => {
     setSelectedSections((prev) => {
       let updated = [...prev];
 
@@ -69,10 +69,10 @@ function App() {
 
           if (emptyIndex !== -1) {
             // Replace the first empty row
-            updated[emptyIndex] = { ...sec, price: "", rows: "" };
+            updated[emptyIndex] = { ...sec, price: price || "", rows: "" };
           } else {
             // Add new section
-            updated.push({ ...sec, price: "", rows: "" });
+            updated.push({ ...sec, price: price || "", rows: "" });
           }
         }
       };
